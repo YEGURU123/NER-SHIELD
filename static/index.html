@@ -1,0 +1,3032 @@
+<!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>NER Shield | Landslide Early Warning System</title><link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><style>
+/* =========================================================
+   NER SHIELD - GLOBAL
+========================================================= */
+:root {
+    --primary: #1A73E8;
+    --primary-dark: #1557B0;
+    --green: #4CAF50;
+    --yellow: #FFC107;
+    --orange: #FF9800;
+    --red: #F44336;
+    --background: #F5F5F5;
+    --card: #FFFFFF;
+    --text: #202124;
+    --secondary: #5F6368;
+    --border: #E6E9ED;
+    --shadow: 0 4px 20px rgba(0,0,0,.08);
+    --radius: 18px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background: var(--background);
+    color: var(--text);
+    min-height: 100vh;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =========================================================
+   LOADER
+========================================================= */
+.loader {
+    width: 22px;
+    height: 22px;
+    border: 3px solid rgba(255,255,255,.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.dark-loader {
+    border-color: #DDE5EF;
+    border-top-color: var(--primary);
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* =========================================================
+   LOGIN
+========================================================= */
+.login-page {
+    min-height: 100vh;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle at top right, rgba(255,255,255,.15), transparent 35%),
+        linear-gradient(135deg, #1A73E8, #0D47A1);
+}
+
+.login-container {
+    width: 100%;
+    max-width: 440px;
+    background: white;
+    border-radius: 26px;
+    padding: 36px 32px;
+    box-shadow: 0 25px 70px rgba(0,0,0,.25);
+}
+
+.login-brand {
+    text-align: center;
+    margin-bottom: 26px;
+}
+
+.logo {
+    font-size: 52px;
+    margin-bottom: 8px;
+}
+
+.login-brand h1 {
+    font-size: 29px;
+    font-weight: 800;
+}
+
+.login-brand p {
+    color: var(--secondary);
+    font-size: 13px;
+    margin-top: 7px;
+}
+
+.tagline {
+    color: var(--primary);
+    font-weight: 700;
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.prototype-badge {
+    display: inline-block;
+    margin-top: 13px;
+    padding: 6px 12px;
+    background: #E8F0FE;
+    color: var(--primary);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.auth-section {
+    display: none;
+}
+
+.auth-section.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.input-wrap {
+    position: relative;
+}
+
+.input-wrap i {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+    color: var(--secondary);
+}
+
+.input-wrap input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    border: 2px solid #E0E4E8;
+    border-radius: 12px;
+    padding: 13px 14px 13px 42px;
+    outline: none;
+    transition: .25s;
+    background: white;
+}
+
+.form-group select,
+.form-group textarea {
+    padding-left: 14px;
+}
+
+.form-group textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+.input-wrap input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(26,115,232,.1);
+}
+
+.auth-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin: 4px 0 16px;
+}
+
+.link-btn {
+    border: 0;
+    background: transparent;
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.primary-btn,
+.secondary-btn,
+.danger-btn,
+.success-btn {
+    width: 100%;
+    border: none;
+    border-radius: 12px;
+    padding: 14px;
+    font-weight: 700;
+    transition: .2s;
+}
+
+.primary-btn {
+    background: var(--primary);
+    color: white;
+}
+
+.primary-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.secondary-btn {
+    background: white;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    margin-top: 10px;
+}
+
+.success-btn {
+    background: var(--green);
+    color: white;
+}
+
+.danger-btn {
+    background: var(--red);
+    color: white;
+}
+
+.error-message {
+    display: none;
+    margin-top: 12px;
+    color: var(--red);
+    font-size: 13px;
+    text-align: center;
+}
+
+.error-message.show {
+    display: block;
+}
+
+.auth-switch {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 13px;
+    color: var(--secondary);
+}
+
+/* =========================================================
+   APP HEADER
+========================================================= */
+#appContainer {
+    display: none;
+    min-height: 100vh;
+}
+
+#appContainer.active {
+    display: block;
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,.14);
+}
+
+.header-inner {
+    max-width: 1400px;
+    margin: auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-icon {
+    font-size: 29px;
+}
+
+.brand h1 {
+    font-size: 21px;
+}
+
+.brand small {
+    display: block;
+    font-size: 10px;
+    opacity: .85;
+    margin-top: 2px;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-menu-wrap {
+    position: relative;
+}
+
+.profile-btn {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    background: rgba(255,255,255,.18);
+    font-size: 17px;
+}
+
+.profile-menu {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 52px;
+    width: 210px;
+    background: white;
+    color: var(--text);
+    border-radius: 14px;
+    padding: 8px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.2);
+}
+
+.profile-menu.active {
+    display: block;
+}
+
+.profile-menu .user-mini {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 5px;
+}
+
+.profile-menu button {
+    width: 100%;
+    text-align: left;
+    padding: 11px 12px;
+    border: none;
+    background: white;
+    border-radius: 9px;
+    color: var(--text);
+}
+
+.profile-menu button:hover {
+    background: #F5F8FC;
+}
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+.desktop-nav {
+    max-width: 1400px;
+    margin: 18px auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+}
+
+.desktop-nav button {
+    flex: 1;
+    min-width: 110px;
+    padding: 11px 14px;
+    border: none;
+    border-radius: 12px;
+    background: white;
+    color: var(--secondary);
+    box-shadow: var(--shadow);
+    font-weight: 700;
+}
+
+.desktop-nav button.active {
+    background: var(--primary);
+    color: white;
+}
+
+.bottom-nav {
+    display: none;
+}
+
+/* =========================================================
+   MAIN / CARDS
+========================================================= */
+.main {
+    max-width: 1400px;
+    margin: auto;
+    padding: 0 20px 110px;
+}
+
+.page {
+    display: none;
+    animation: fadeIn .25s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.page-title {
+    font-size: 27px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.page-subtitle {
+    color: var(--secondary);
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.risk-card,
+.weather-card,
+.ai-card,
+.warning,
+.road-warning,
+.report-card,
+.settings-card,
+.alert-card,
+.profile-card,
+.video-card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.risk-card {
+    padding: 27px;
+    border-left: 7px solid var(--yellow);
+    margin-bottom: 20px;
+}
+
+.risk-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+}
+
+.risk-title {
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--secondary);
+}
+
+.risk-level {
+    font-size: 34px;
+    font-weight: 800;
+    color: #E65100;
+    margin-top: 5px;
+}
+
+.risk-score {
+    font-size: 42px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.progress {
+    height: 11px;
+    background: #E8EAED;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 18px;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 72%;
+    background: var(--yellow);
+}
+
+.risk-message {
+    margin-top: 15px;
+    padding: 13px;
+    border-radius: 11px;
+    background: #FFF8E1;
+    font-size: 14px;
+}
+
+.weather-card {
+    padding: 22px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.weather-main {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.weather-icon {
+    font-size: 45px;
+}
+
+.temperature {
+    font-size: 31px;
+    font-weight: 800;
+}
+
+.weather-stats {
+    display: flex;
+    gap: 26px;
+    flex-wrap: wrap;
+}
+
+.weather-stat {
+    text-align: center;
+}
+
+.weather-stat strong {
+    display: block;
+    font-size: 17px;
+}
+
+.weather-stat span {
+    color: var(--secondary);
+    font-size: 11px;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: white;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 19px;
+    text-align: center;
+}
+
+.stat-number {
+    color: var(--primary);
+    font-size: 27px;
+    font-weight: 800;
+}
+
+.stat-label {
+    color: var(--secondary);
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.warning,
+.road-warning {
+    padding: 19px;
+    margin-bottom: 18px;
+}
+
+.warning {
+    border-left: 6px solid var(--orange);
+    background: #FFF8E1;
+}
+
+.road-warning {
+    border-left: 6px solid var(--red);
+    background: #FFF4F3;
+}
+
+.warning h3,
+.road-warning h3 {
+    margin-bottom: 7px;
+}
+
+.warning p,
+.road-warning p {
+    color: var(--secondary);
+    font-size: 14px;
+}
+
+.ai-card {
+    padding: 22px;
+    margin-bottom: 25px;
+}
+
+.ai-title {
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.demo-label {
+    margin-top: 6px;
+    color: var(--secondary);
+    font-size: 12px;
+}
+
+.ai-summary {
+    margin: 17px 0;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.ai-summary strong {
+    display: block;
+    color: var(--primary);
+    font-size: 23px;
+}
+
+.ai-factors {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+.factor {
+    padding: 13px;
+    border-radius: 11px;
+    background: var(--background);
+    font-size: 13px;
+}
+
+/* =========================================================
+   MAP
+========================================================= */
+.map-wrapper {
+    position: relative;
+    height: 620px;
+    overflow: hidden;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    background: #E9EEF5;
+}
+
+#googleMap {
+    width: 100%;
+    height: 100%;
+}
+
+.map-status {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 25px;
+    text-align: center;
+    background: #F8FAFD;
+}
+
+.map-status-card {
+    max-width: 450px;
+}
+
+.map-status-card h3 {
+    margin: 12px 0 8px;
+}
+
+.map-status-card p {
+    color: var(--secondary);
+    font-size: 14px;
+}
+
+.map-loading-spinner {
+    margin: auto;
+    width: 40px;
+    height: 40px;
+    border: 4px solid #DDE5EF;
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+}
+
+.location-card {
+    position: absolute;
+    z-index: 6;
+    top: 15px;
+    left: 15px;
+    background: white;
+    padding: 13px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    max-width: 270px;
+    font-size: 12px;
+}
+
+.location-card strong {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.location-card p {
+    margin-top: 3px;
+}
+
+.my-location-btn {
+    position: absolute;
+    right: 15px;
+    bottom: 25px;
+    z-index: 6;
+    border: none;
+    background: white;
+    box-shadow: var(--shadow);
+    padding: 12px 15px;
+    border-radius: 25px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.map-legend {
+    position: absolute;
+    left: 15px;
+    bottom: 20px;
+    z-index: 6;
+    background: white;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: var(--shadow);
+    font-size: 12px;
+}
+
+.legend-item {
+    margin: 6px 0;
+}
+
+.legend-dot {
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    margin-right: 7px;
+}
+
+/* =========================================================
+   VIDEO
+========================================================= */
+.section-heading {
+    margin: 30px 0 16px;
+}
+
+.section-heading h2 {
+    font-size: 23px;
+}
+
+.section-heading p {
+    color: var(--secondary);
+    margin-top: 5px;
+    font-size: 14px;
+}
+
+.video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 18px;
+}
+
+.video-card {
+    overflow: hidden;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.video-card:hover {
+    transform: translateY(-4px);
+}
+
+.video-thumbnail {
+    position: relative;
+    height: 165px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        linear-gradient(135deg, rgba(26,115,232,.9), rgba(13,71,161,.95)),
+        #1A73E8;
+    color: white;
+}
+
+.video-thumbnail .play-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.95);
+    color: var(--red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+}
+
+.video-duration {
+    position: absolute;
+    right: 10px;
+    bottom: 9px;
+    background: rgba(0,0,0,.7);
+    color: white;
+    padding: 4px 7px;
+    border-radius: 6px;
+    font-size: 11px;
+}
+
+.video-info {
+    padding: 15px;
+}
+
+.video-info h3 {
+    font-size: 15px;
+    margin-bottom: 6px;
+}
+
+.video-info p {
+    font-size: 12px;
+    color: var(--secondary);
+    line-height: 1.5;
+}
+
+/* =========================================================
+   REPORT
+========================================================= */
+.report-card {
+    max-width: 780px;
+    padding: 27px;
+}
+
+.upload-box {
+    border: 2px dashed #CBD0D6;
+    border-radius: 14px;
+    padding: 28px;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 18px;
+}
+
+.upload-box i {
+    color: var(--primary);
+    font-size: 35px;
+    margin-bottom: 8px;
+}
+
+#photoPreview {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-top: 14px;
+    display: none;
+}
+
+.location-result {
+    padding: 13px;
+    background: #F5F8FC;
+    border-radius: 10px;
+    margin: 12px 0;
+    font-size: 13px;
+}
+
+.small-btn {
+    border: none;
+    background: #E8F0FE;
+    color: var(--primary);
+    padding: 10px 13px;
+    border-radius: 10px;
+    font-weight: 700;
+}
+
+/* =========================================================
+   ALERTS
+========================================================= */
+.alert-card {
+    padding: 20px;
+    margin-bottom: 13px;
+    border-left: 6px solid var(--yellow);
+    cursor: pointer;
+}
+
+.alert-card.critical {
+    border-color: var(--red);
+}
+
+.alert-card.high {
+    border-color: var(--orange);
+}
+
+.alert-card.moderate {
+    border-color: var(--yellow);
+}
+
+.alert-card p {
+    color: var(--secondary);
+    margin-top: 6px;
+    font-size: 13px;
+}
+
+/* =========================================================
+   SETTINGS / PROFILE
+========================================================= */
+.settings-card,
+.profile-card {
+    max-width: 780px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.settings-title {
+    padding: 15px 18px;
+    background: #F8FAFB;
+    font-size: 13px;
+    color: var(--secondary);
+    font-weight: 800;
+}
+
+.setting {
+    padding: 17px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    border-bottom: 1px solid #F0F0F0;
+}
+
+.setting:last-child {
+    border-bottom: none;
+}
+
+.setting small {
+    display: block;
+    color: var(--secondary);
+    margin-top: 4px;
+}
+
+.toggle {
+    width: 46px;
+    height: 25px;
+    background: #CBD0D6;
+    border-radius: 20px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.toggle::after {
+    content: "";
+    width: 19px;
+    height: 19px;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    background: white;
+    border-radius: 50%;
+    transition: .2s;
+}
+
+.toggle.active {
+    background: var(--primary);
+}
+
+.toggle.active::after {
+    left: 24px;
+}
+
+.contact-list a {
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.profile-card {
+    padding: 25px;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 18px;
+}
+
+.profile-item {
+    padding: 14px;
+    background: var(--background);
+    border-radius: 12px;
+}
+
+.profile-item span {
+    display: block;
+    font-size: 11px;
+    color: var(--secondary);
+    margin-bottom: 5px;
+}
+
+/* =========================================================
+   SOS
+========================================================= */
+.sos {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 68px;
+    height: 68px;
+    z-index: 1000;
+    border: 5px solid white;
+    border-radius: 50%;
+    background: var(--red);
+    color: white;
+    font-weight: 800;
+    box-shadow: 0 5px 25px rgba(244,67,54,.5);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(244,67,54,.55); }
+    70% { box-shadow: 0 0 0 16px rgba(244,67,54,0); }
+    100% { box-shadow: 0 0 0 0 rgba(244,67,54,0); }
+}
+
+.emergency-state {
+    position: fixed;
+    inset: 0;
+    z-index: 2500;
+    display: none;
+    background: rgba(183,28,28,.97);
+    color: white;
+    overflow-y: auto;
+    padding: 30px;
+}
+
+.emergency-state.active {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emergency-content {
+    width: 100%;
+    max-width: 700px;
+    text-align: center;
+}
+
+.emergency-icon {
+    font-size: 70px;
+    animation: emergencyPulse 1s infinite;
+}
+
+@keyframes emergencyPulse {
+    50% { transform: scale(1.1); }
+}
+
+.emergency-content h2 {
+    margin: 14px 0 10px;
+    font-size: 28px;
+}
+
+.emergency-location {
+    margin: 22px auto;
+    background: rgba(255,255,255,.13);
+    padding: 18px;
+    border-radius: 15px;
+    max-width: 500px;
+    text-align: left;
+}
+
+.emergency-countdown {
+    font-size: 32px;
+    font-weight: 800;
+    margin: 15px 0;
+}
+
+/* =========================================================
+   MODALS / TOAST
+========================================================= */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background: rgba(0,0,0,.68);
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 680px;
+    background: white;
+    border-radius: 18px;
+    padding: 24px;
+    position: relative;
+}
+
+.modal-content h2 {
+    margin-bottom: 10px;
+}
+
+.modal-content p {
+    color: var(--secondary);
+    line-height: 1.55;
+}
+
+.modal-close {
+    position: absolute;
+    right: 13px;
+    top: 12px;
+    width: 36px;
+    height: 36px;
+    border: none;
+    border-radius: 50%;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.modal-actions button {
+    flex: 1;
+}
+
+.modal video {
+    width: 100%;
+    max-height: 70vh;
+    margin-top: 15px;
+    background: black;
+    border-radius: 12px;
+}
+
+.toast {
+    position: fixed;
+    z-index: 3000;
+    left: 50%;
+    bottom: 25px;
+    transform: translate(-50%, 30px);
+    opacity: 0;
+    pointer-events: none;
+    background: #202124;
+    color: white;
+    padding: 13px 20px;
+    border-radius: 30px;
+    transition: .25s;
+    font-size: 14px;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+@media (max-width: 800px) {
+    .desktop-nav {
+        display: none;
+    }
+
+    .bottom-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 500;
+        background: white;
+        box-shadow: 0 -4px 20px rgba(0,0,0,.1);
+        justify-content: space-around;
+        padding: 7px 4px calc(7px + env(safe-area-inset-bottom));
+    }
+
+    .bottom-nav button {
+        border: none;
+        background: white;
+        color: var(--secondary);
+        padding: 7px 5px;
+        min-width: 60px;
+        font-size: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .bottom-nav button i {
+        font-size: 17px;
+    }
+
+    .bottom-nav button.active {
+        color: var(--primary);
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .ai-factors,
+    .profile-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .weather-card {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .weather-stats {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .map-wrapper {
+        height: 520px;
+    }
+
+    .location-card {
+        max-width: calc(100% - 30px);
+    }
+
+    .map-legend {
+        bottom: 80px;
+    }
+
+    .my-location-btn {
+        bottom: 25px;
+    }
+
+    .sos {
+        bottom: 82px;
+        right: 16px;
+    }
+}
+
+@media (max-width: 500px) {
+    .login-container {
+        padding: 29px 21px;
+    }
+
+    .header-inner {
+        padding: 12px 15px;
+    }
+
+    .brand h1 {
+        font-size: 18px;
+    }
+
+    .main {
+        padding: 0 12px 100px;
+    }
+
+    .risk-card {
+        padding: 20px;
+    }
+
+    .risk-level {
+        font-size: 27px;
+    }
+
+    .risk-score {
+        font-size: 34px;
+    }
+
+    .map-wrapper {
+        border-radius: 14px;
+        height: 500px;
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+
+    .emergency-content h2 {
+        font-size: 24px;
+    }
+}
+.modal video {
+    width: 100%;
+    max-height: 55vh;
+    border-radius: 14px;
+    background: #000;
+}
+.youtube-frame-wrap {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+}
+.youtube-frame-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}\n</style></head><body><!-- =========================================================
+     LOGIN / REGISTER
+========================================================= --><div id="loginPage" class="login-page">
+    <div class="login-container">    <div class="login-brand">
+        <div class="logo">🛡️</div>
+        <h1>NER Shield</h1>
+        <p>AI-Based Landslide Early Warning System</p>
+        <div class="tagline">Stay informed. Stay safe.</div>
+        <div class="prototype-badge">PROTOTYPE LOGIN</div>
+    </div>
+
+    <!-- LOGIN -->
+    <section id="loginSection" class="auth-section active">
+        <div class="form-group">
+            <label>Email / Phone Number</label>
+            <div class="input-wrap">
+                <i class="fa-solid fa-user"></i>
+                <input id="loginIdentity" type="text" placeholder="Enter email or phone">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <div class="input-wrap">
+                <i class="fa-solid fa-lock"></i>
+                <input id="loginPassword" type="password" placeholder="Enter password">
+            </div>
+        </div>
+
+        <div class="auth-row">
+            <span></span>
+            <button class="link-btn" id="forgotPasswordBtn">Forgot Password?</button>
+        </div>
+
+        <button class="primary-btn" id="loginBtn">
+            <span class="btn-text"><i class="fa-solid fa-right-to-bracket"></i> Login</span>
+        </button>
+
+        <button class="secondary-btn" id="guestBtn">
+            <i class="fa-solid fa-user-clock"></i> Continue as Guest
+        </button>
+
+        <div class="auth-switch">
+            New to NER Shield?
+            <button class="link-btn" id="showRegisterBtn">Create Account</button>
+        </div>
+
+        <div id="loginError" class="error-message"></div>
+    </section>
+
+    <!-- REGISTER -->
+    <section id="registerSection" class="auth-section">
+        <div class="form-group">
+            <label>Full Name</label>
+            <div class="input-wrap">
+                <i class="fa-solid fa-user"></i>
+                <input id="registerName" type="text" placeholder="Enter your full name">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <div class="input-wrap">
+                <i class="fa-solid fa-envelope"></i>
+                <input id="registerEmail" type="email" placeholder="Enter your email">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Phone Number</label>
+            <div class="input-wrap">
+                <i class="fa-solid fa-phone"></i>
+                <input id="registerPhone" type="tel" placeholder="Enter phone number">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <div class="input-wrap">
+                <i class="fa-solid fa-lock"></i>
+                <input id="registerPassword" type="password" placeholder="Create password">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Confirm Password</label>
+            <div class="input-wrap">
+                <i class="fa-solid fa-lock"></i>
+                <input id="registerConfirmPassword" type="password" placeholder="Confirm password">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Location</label>
+            <select id="registerLocation">
+                <option value="">Select location</option>
+                <option>Shillong</option>
+                <option>Guwahati</option>
+                <option>Kamrup</option>
+                <option>Cherrapunji</option>
+                <option>Kohima</option>
+                <option>Dimapur</option>
+                <option>Imphal</option>
+                <option>Aizawl</option>
+                <option>Other</option>
+            </select>
+        </div>
+
+        <button class="primary-btn" id="registerBtn">
+            Create Account
+        </button>
+
+        <div class="auth-switch">
+            Already have an account?
+            <button class="link-btn" id="showLoginBtn">Login</button>
+        </div>
+
+        <div id="registerError" class="error-message"></div>
+    </section>
+
+</div>
+
+</div><!-- =========================================================
+     APPLICATION
+========================================================= --><div id="appContainer"><header class="header">
+    <div class="header-inner">
+
+        <div class="brand">
+            <div class="brand-icon">🛡️</div>
+            <div>
+                <h1>NER Shield</h1>
+                <small>AI-Based Landslide Early Warning System</small>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <div class="profile-menu-wrap">
+                <button class="profile-btn" id="profileBtn" aria-label="Profile">
+                    <i class="fa-solid fa-user"></i>
+                </button>
+
+                <div id="profileMenu" class="profile-menu">
+                    <div class="user-mini">
+                        <strong id="headerUserName">Guest User</strong>
+                        <small id="headerUserType">Prototype User</small>
+                    </div>
+
+                    <button data-page-target="profile">
+                        <i class="fa-solid fa-id-card"></i> My Profile
+                    </button>
+
+                    <button data-page-target="settings">
+                        <i class="fa-solid fa-gear"></i> Settings
+                    </button>
+
+                    <button id="profileLogoutBtn">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<!-- DESKTOP NAV -->
+<nav class="desktop-nav">
+    <button class="nav-btn active" data-page="home"><i class="fa-solid fa-house"></i> Home</button>
+    <button class="nav-btn" data-page="map"><i class="fa-solid fa-map"></i> Risk Map</button>
+    <button class="nav-btn" data-page="report"><i class="fa-solid fa-camera"></i> Report</button>
+    <button class="nav-btn" data-page="alerts"><i class="fa-solid fa-bell"></i> Alerts</button>
+    <button class="nav-btn" data-page="settings"><i class="fa-solid fa-gear"></i> Settings</button>
+</nav>
+
+<main class="main">
+
+    <!-- =================================================
+         HOME
+    ================================================== -->
+    <section id="home" class="page active">
+        <h2 class="page-title">Landslide Risk Dashboard</h2>
+        <p class="page-subtitle">North Eastern Region monitoring overview</p>
+
+        <div class="risk-card">
+            <div class="risk-top">
+                <div>
+                    <div class="risk-title">Current Risk</div>
+                    <div class="risk-level">MODERATE</div>
+                    <small>Level 3 / 5</small>
+                </div>
+                <div class="risk-score">72%</div>
+            </div>
+
+            <div class="progress">
+                <div class="progress-fill"></div>
+            </div>
+
+            <div class="risk-message">
+                <strong>⚠️ Current status:</strong>
+                Monitor local conditions and follow official safety guidance.
+            </div>
+        </div>
+
+        <div class="weather-card">
+            <div class="weather-main">
+                <div class="weather-icon">🌧️</div>
+                <div>
+                    <div class="temperature">24°C</div>
+                    <div>Heavy Rain</div>
+                </div>
+            </div>
+
+            <div class="weather-stats">
+                <div class="weather-stat">
+                    <strong>32 mm</strong>
+                    <span>Rainfall / 24h</span>
+                </div>
+                <div class="weather-stat">
+                    <strong>86%</strong>
+                    <span>Humidity</span>
+                </div>
+                <div class="weather-stat">
+                    <strong>18 km/h</strong>
+                    <span>Wind</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number">72%</div>
+                <div class="stat-label">Risk Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">3</div>
+                <div class="stat-label">Active Alerts</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">2</div>
+                <div class="stat-label">Affected Roads</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">87%</div>
+                <div class="stat-label">AI Confidence</div>
+            </div>
+        </div>
+
+        <div class="warning">
+            <h3>⚠️ Heavy Rainfall Warning</h3>
+            <p><strong>45 mm expected in the next 6 hours.</strong> Increased rainfall may increase slope instability.</p>
+        </div>
+
+        <div class="road-warning">
+            <h3>🛣️ Road Warning</h3>
+            <p><strong>Road NH-37:</strong> High risk segment between km 12–15.</p>
+        </div>
+
+        <div class="warning">
+            <h3>🔔 Recent Alert</h3>
+            <p><strong>Kamrup District</strong> — 2 hours ago. Monitoring alert remains active.</p>
+        </div>
+
+        <div class="ai-card">
+            <div class="ai-title">🤖 Prototype AI Risk Analysis</div>
+            <div class="demo-label">Prototype / Demo Data — not a real-time AI prediction.</div>
+
+            <div class="ai-summary">
+                <div>
+                    <span>Risk</span>
+                    <strong>MODERATE</strong>
+                </div>
+                <div>
+                    <span>Confidence</span>
+                    <strong>87%</strong>
+                </div>
+            </div>
+
+            <div class="ai-factors">
+                <div class="factor">🌧️ Heavy rainfall</div>
+                <div class="factor">💧 High soil moisture</div>
+                <div class="factor">⛰️ Unstable slope</div>
+                <div class="factor">📈 Increasing rainfall trend</div>
+            </div>
+        </div>
+
+        <div class="section-heading">
+            <h2>Disaster Awareness</h2>
+            <p>Learn how to stay safe during landslides and extreme weather.</p>
+        </div>
+
+        <div id="videoGrid" class="video-grid"></div>
+    </section>
+
+    <!-- =================================================
+         MAP
+    ================================================== -->
+    <section id="map" class="page">
+        <h2 class="page-title">NER Shield Risk Map</h2>
+        <p class="page-subtitle">Interactive Google Maps with prototype risk zones and your live location.</p>
+
+        <div class="map-wrapper">
+
+            <div id="mapStatus" class="map-status">
+                <div class="map-status-card">
+                    <div id="mapLoader" class="map-loading-spinner"></div>
+                    <h3 id="mapStatusTitle">Loading interactive map</h3>
+                    <p id="mapStatusText">Preparing Google Maps and location services...</p>
+                </div>
+            </div>
+
+            <div id="googleMap"></div>
+
+            <div class="location-card">
+                <strong>📍 Your Location</strong>
+                <p id="latitudeText">Latitude: Detecting...</p>
+                <p id="longitudeText">Longitude: Detecting...</p>
+                <p id="accuracyText">Accuracy: Detecting...</p>
+            </div>
+
+            <button id="myLocationBtn" class="my-location-btn">
+                <i class="fa-solid fa-location-crosshairs"></i>
+                My Location
+            </button>
+
+            <div class="map-legend">
+                <strong>Risk Levels</strong>
+                <div class="legend-item"><span class="legend-dot" style="background:#4CAF50"></span>Low</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#FFC107"></span>Moderate</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#FF9800"></span>High</div>
+                <div class="legend-item"><span class="legend-dot" style="background:#F44336"></span>Critical</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- =================================================
+         REPORT
+    ================================================== -->
+    <section id="report" class="page">
+        <h2 class="page-title">Report an Observation</h2>
+        <p class="page-subtitle">Submit a prototype field observation with photo and GPS location.</p>
+
+        <div class="report-card">
+            <label class="upload-box" for="reportPhoto">
+                <i class="fa-solid fa-cloud-arrow-up"></i>
+                <h3>Upload Observation Photo</h3>
+                <p>Tap to choose an image</p>
+                <input id="reportPhoto" type="file" accept="image/*" class="hidden">
+                <img id="photoPreview" alt="Report preview">
+            </label>
+
+            <div class="form-group">
+                <label>Observation Type</label>
+                <select id="observationType">
+                    <option value="">Select observation</option>
+                    <option>Crack</option>
+                    <option>Slope movement</option>
+                    <option>Rockfall</option>
+                    <option>Flooding</option>
+                    <option>Landslide</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <button id="detectReportLocationBtn" class="small-btn">
+                <i class="fa-solid fa-location-crosshairs"></i>
+                Detect GPS Location
+            </button>
+
+            <div id="reportLocationResult" class="location-result">
+                GPS location not detected yet.
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                <textarea id="reportDescription" placeholder="Describe what you observed..."></textarea>
+            </div>
+
+            <button id="submitReportBtn" class="success-btn">
+                Submit Report
+            </button>
+        </div>
+    </section>
+
+    <!-- =================================================
+         ALERTS
+    ================================================== -->
+    <section id="alerts" class="page">
+        <h2 class="page-title">Active Alerts</h2>
+        <p class="page-subtitle">Click an alert for details.</p>
+
+        <div class="alert-card critical" data-alert="Kamrup District">
+            <h3>🔴 Critical — Kamrup District</h3>
+            <p>Prototype alert: severe slope instability conditions reported.</p>
+        </div>
+
+        <div class="alert-card high" data-alert="NH-37, Meghalaya">
+            <h3>🟠 High — NH-37, Meghalaya</h3>
+            <p>Prototype alert: high-risk road segment between km 12–15.</p>
+        </div>
+
+        <div class="alert-card moderate" data-alert="Shillong">
+            <h3>🟡 Moderate — Shillong</h3>
+            <p>Prototype alert: elevated rainfall and soil saturation.</p>
+        </div>
+    </section>
+
+    <!-- =================================================
+         PROFILE
+    ================================================== -->
+    
+<!-- NER SHIELD BACKEND AI PREDICTION SYSTEM -->
+<section id="aiPredictionSystem" class="page">
+  <h2 class="page-title">AI Prediction System</h2>
+  <p class="page-subtitle">Enter current conditions and run the connected NER SHIELD risk prediction engine.</p>
+  <div class="ai-card">
+    <div class="ai-title">🤖 AI / ML Landslide Risk Prediction</div>
+    <div class="profile-grid">
+      <div class="form-group"><label>Rainfall (mm)</label><input id="mlRainfall" type="number" value="45" min="0"></div>
+      <div class="form-group"><label>Soil Moisture (%)</label><input id="mlSoil" type="number" value="65" min="0" max="100"></div>
+      <div class="form-group"><label>Slope (degrees)</label><input id="mlSlope" type="number" value="28" min="0" max="90"></div>
+      <div class="form-group"><label>Road Condition (0–1)</label><input id="mlRoad" type="number" value="0.70" min="0" max="1" step="0.01"></div>
+      <div class="form-group"><label>Historical Disruptions</label><input id="mlHistory" type="number" value="3" min="0"></div>
+      <div class="form-group"><label>Terrain</label><input id="mlTerrain" type="text" value="Hilly"></div>
+    </div>
+    <button class="primary-btn" id="runAIPredictionBtn">Run AI Prediction</button>
+    <div class="ai-summary" style="margin-top:16px">
+      <div><span>Predicted Risk</span><strong id="mlRiskLevel">--</strong></div>
+      <div><span>Risk Probability</span><strong id="mlRiskProbability">--</strong></div>
+      <div><span>AI Confidence</span><strong id="mlConfidence">--</strong></div>
+    </div>
+    <p id="mlPredictionMessage" class="demo-label">Connected prediction results will appear here.</p>
+  </div>
+</section>
+
+<section id="profile" class="page">
+        <h2 class="page-title">My Profile</h2>
+        <p class="page-subtitle">Manage your prototype account information.</p>
+
+        <div class="profile-card">
+            <div class="profile-grid">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input id="profileName" type="text">
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <input id="profileEmail" type="email">
+                </div>
+
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input id="profilePhone" type="tel">
+                </div>
+
+                <div class="form-group">
+                    <label>Current Location</label>
+                    <input id="profileLocation" type="text">
+                </div>
+            </div>
+
+            <div class="profile-item">
+                <span>Account Type</span>
+                <strong>Prototype User</strong>
+            </div>
+
+            <br>
+
+            <button id="saveProfileBtn" class="primary-btn">
+                Save Profile
+            </button>
+        </div>
+    </section>
+
+    <!-- =================================================
+         SETTINGS
+    ================================================== -->
+    <section id="settings" class="page">
+        <h2 class="page-title">Settings</h2>
+
+        <div class="settings-card">
+            <div class="settings-title">PREFERENCES</div>
+
+            <div class="setting">
+                <div>
+                    <strong>Language</strong>
+                    <small>English</small>
+                </div>
+                <select id="languageSelect">
+                    <option>English</option>
+                    <option>Hindi</option>
+                </select>
+            </div>
+
+            <div class="setting">
+                <div>
+                    <strong>Notifications</strong>
+                    <small>Prototype notifications</small>
+                </div>
+                <button class="toggle active" data-setting="notifications"></button>
+            </div>
+
+            <div class="setting">
+                <div>
+                    <strong>Offline Mode</strong>
+                    <small>Store prototype preferences locally</small>
+                </div>
+                <button class="toggle" data-setting="offline"></button>
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <div class="settings-title">EMERGENCY CONTACTS</div>
+
+            <div class="setting contact-list">
+                <div>
+                    <strong>🚨 Emergency</strong>
+                    <small>National emergency service</small>
+                </div>
+                <a href="tel:112">112</a>
+            </div>
+
+            <div class="setting contact-list">
+                <div>
+                    <strong>🚑 Ambulance</strong>
+                    <small>Medical emergency</small>
+                </div>
+                <a href="tel:108">108</a>
+            </div>
+
+            <div class="setting contact-list">
+                <div>
+                    <strong>🚒 Fire & Rescue</strong>
+                    <small>Fire emergency</small>
+                </div>
+                <a href="tel:101">101</a>
+            </div>
+        </div>
+
+        <div class="settings-card">
+            <div class="settings-title">ABOUT</div>
+            <div class="setting">
+                <div>
+                    <strong>NER Shield</strong>
+                    <small>AI-Based Landslide Early Warning System — SIH Prototype</small>
+                </div>
+            </div>
+        </div>
+
+        <button id="settingsLogoutBtn" class="danger-btn">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
+    </section>
+
+</main>
+
+<!-- MOBILE NAV -->
+<nav class="bottom-nav">
+    <button class="nav-btn active" data-page="home">
+        <i class="fa-solid fa-house"></i><span>Home</span>
+    </button>
+    <button class="nav-btn" data-page="map">
+        <i class="fa-solid fa-map"></i><span>Map</span>
+    </button>
+    <button class="nav-btn" data-page="report">
+        <i class="fa-solid fa-camera"></i><span>Report</span>
+    </button>
+    <button class="nav-btn" data-page="alerts">
+        <i class="fa-solid fa-bell"></i><span>Alerts</span>
+    </button>
+    <button class="nav-btn" data-page="settings">
+        <i class="fa-solid fa-gear"></i><span>Settings</span>
+    </button>
+</nav>
+
+</div><!-- =========================================================
+     SOS BUTTON
+========================================================= --><button id="sosBtn" class="sos">SOS</button>
+
+<!-- =========================================================
+     SOS CONFIRMATION
+========================================================= --><div id="sosModal" class="modal">
+    <div class="modal-content">
+        <h2>🚨 Emergency SOS</h2>
+        <p>Are you sure you want to trigger an emergency alert?</p>    <div class="emergency-location" style="color:#202124">
+        <strong>Emergency Contacts</strong>
+        <p><a href="tel:112">🚨 Emergency — 112</a></p>
+        <p><a href="tel:108">🚑 Ambulance — 108</a></p>
+        <p><a href="tel:101">🚒 Fire & Rescue — 101</a></p>
+    </div>
+
+    <div class="modal-actions">
+        <button id="cancelSosBtn" class="secondary-btn">Cancel</button>
+        <button id="sendSosBtn" class="danger-btn">Send SOS</button>
+    </div>
+</div>
+
+</div><!-- =========================================================
+     VIDEO MODAL
+========================================================= --><div id="videoModal" class="modal">
+    <div class="modal-content">
+        <button id="closeVideoBtn" class="modal-close">
+            <i class="fa-solid fa-xmark"></i>
+        </button>    <h2 id="videoModalTitle">Disaster Awareness</h2>
+
+    <div class="youtube-frame-wrap">
+        <iframe
+            id="awarenessVideo"
+            title="Disaster Awareness Video"
+            src="about:blank"
+            allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+            allowfullscreen
+            referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+    </div>
+
+    <p id="videoModalMessage" style="margin-top:10px;"></p>
+</div>
+
+</div><!-- =========================================================
+     LOGOUT MODAL
+========================================================= --><div id="logoutModal" class="modal">
+    <div class="modal-content">
+        <h2>Logout from NER Shield?</h2>
+        <p>You will return to the Prototype Login screen.</p>    <div class="modal-actions">
+        <button id="cancelLogoutBtn" class="secondary-btn">Cancel</button>
+        <button id="confirmLogoutBtn" class="danger-btn">Logout</button>
+    </div>
+</div>
+
+</div><!-- =========================================================
+     GENERIC MODAL
+========================================================= --><div id="infoModal" class="modal">
+    <div class="modal-content">
+        <button id="closeInfoBtn" class="modal-close">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h2 id="infoModalTitle"></h2>
+        <p id="infoModalText"></p>
+    </div>
+</div><!-- =========================================================
+     EMERGENCY STATE
+========================================================= --><div id="emergencyState" class="emergency-state">
+    <div class="emergency-content">
+        <div class="emergency-icon">🚨</div>    <h2>EMERGENCY ALERT TRIGGERED</h2>
+
+    <p>
+        Your location has been included in this prototype emergency alert.
+    </p>
+
+    <div class="emergency-location">
+        <h3>Emergency Location</h3>
+        <p id="emergencyLat">Latitude: Detecting...</p>
+        <p id="emergencyLng">Longitude: Detecting...</p>
+        <p id="emergencyAccuracy">Accuracy: Detecting...</p>
+    </div>
+
+    <p><strong>Prototype simulation — no real emergency alert is sent.</strong></p>
+
+    <div class="emergency-countdown">
+        <span id="emergencyCountdown">30</span>s
+    </div>
+
+    <p>Emergency prototype status active</p>
+
+    <br>
+
+    <button id="stopAlarmBtn" class="secondary-btn">
+        <i class="fa-solid fa-volume-xmark"></i> Stop Alarm
+    </button>
+</div>
+
+</div><div id="toast" class="toast"></div><script>
+/* =========================================================
+   GOOGLE MAPS API CONFIGURATION
+========================================================= */
+
+// Replace YOUR_GOOGLE_MAPS_API_KEY with your Google Maps API key
+const GOOGLE_MAPS_API_KEY = "YOUR_GOOGLE_MAPS_API_KEY";
+
+
+/* =========================================================
+   APPLICATION STATE
+========================================================= */
+const state = {
+    currentUser: null,
+    isGuest: false,
+    map: null,
+    userMarker: null,
+    infoWindow: null,
+    mapsLoaded: false,
+    mapsLoading: false,
+    latestLocation: null,
+    reportLocation: null,
+    emergencyCountdownTimer: null,
+    audioContext: null,
+    sirenOscillator: null,
+    sirenGain: null
+};
+
+
+/* =========================================================
+   VIDEO DATA
+
+   Replace these URLs with your own legally usable disaster-
+   awareness MP4 files when preparing the final deployment.
+========================================================= */
+const VIDEOS = [
+    {
+        title: "Disaster Awareness Video 01",
+        description: "Disaster awareness and safety guidance.",
+        duration: "YouTube",
+        url: "https://youtu.be/BLEPakj1YTY?si=R9oOoX-FbVYrtYr"
+    },
+    {
+        title: "Disaster Awareness Video 02",
+        description: "Short disaster-safety awareness video.",
+        duration: "YouTube Short",
+        url: "https://youtube.com/shorts/RTgiQTCPZqQ?si=sFiHXr2v2fXDAQeN"
+    },
+    {
+        title: "Disaster Awareness Video 03",
+        description: "Short disaster-safety awareness video.",
+        duration: "YouTube Short",
+        url: "https://youtube.com/shorts/ut5KaOCGZTQ?si=sq7q-ktFE-uS6xsh"
+    },
+    {
+        title: "Disaster Awareness Video 04",
+        description: "Short disaster-safety awareness video.",
+        duration: "YouTube Short",
+        url: "https://youtube.com/shorts/bN1bK48F5Xk?si=8i8HNsveRZ6ji5oD"
+    },
+    {
+        title: "Disaster Awareness Video 05",
+        description: "Short disaster-safety awareness video.",
+        duration: "YouTube Short",
+        url: "https://youtube.com/shorts/pwkppu7OMdg?si=-TGctvfVIZuBkf4R"
+    },
+    {
+        title: "Disaster Awareness Video 06",
+        description: "Short disaster-safety awareness video.",
+        duration: "YouTube Short",
+        url: "https://youtube.com/shorts/BSKH54L8WAw?si=7THJhga1JI6SGT_6"
+    },
+    {
+        title: "Disaster Awareness Video 07",
+        description: "Short disaster-safety awareness video.",
+        duration: "YouTube Short",
+        url: "https://youtube.com/shorts/bkTbv30rE1c?si=JPckG_gsYiSqtqRw"
+    }
+];
+
+
+/* =========================================================
+   UTILITY FUNCTIONS
+========================================================= */
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(showToast.timer);
+
+    showToast.timer = setTimeout(() => {
+        toast.classList.remove("show");
+    }, 3000);
+}
+
+function showInfo(title, message) {
+    document.getElementById("infoModalTitle").textContent = title;
+    document.getElementById("infoModalText").textContent = message;
+    document.getElementById("infoModal").classList.add("active");
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.remove("active");
+}
+
+function setError(elementId, message) {
+    const element = document.getElementById(elementId);
+    element.textContent = message;
+    element.classList.add("show");
+}
+
+function clearError(elementId) {
+    document.getElementById(elementId).classList.remove("show");
+}
+
+
+/* =========================================================
+   AUTHENTICATION - PROTOTYPE / LOCALSTORAGE
+========================================================= */
+const loginSection = document.getElementById("loginSection");
+const registerSection = document.getElementById("registerSection");
+
+document.getElementById("showRegisterBtn").addEventListener("click", () => {
+    loginSection.classList.remove("active");
+    registerSection.classList.add("active");
+    clearError("loginError");
+});
+
+document.getElementById("showLoginBtn").addEventListener("click", () => {
+    registerSection.classList.remove("active");
+    loginSection.classList.add("active");
+    clearError("registerError");
+});
+
+document.getElementById("forgotPasswordBtn").addEventListener("click", () => {
+    showInfo(
+        "Forgot Password?",
+        "This is a frontend prototype using localStorage. Password recovery is not connected to a real authentication service."
+    );
+});
+
+document.getElementById("registerBtn").addEventListener("click", () => {
+    clearError("registerError");
+
+    const name = document.getElementById("registerName").value.trim();
+    const email = document.getElementById("registerEmail").value.trim().toLowerCase();
+    const phone = document.getElementById("registerPhone").value.trim();
+    const password = document.getElementById("registerPassword").value;
+    const confirmPassword = document.getElementById("registerConfirmPassword").value;
+    const location = document.getElementById("registerLocation").value;
+
+    if (!name || !email || !phone || !password || !confirmPassword || !location) {
+        setError("registerError", "Please complete all required fields.");
+        return;
+    }
+
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+        setError("registerError", "Please enter a valid email address.");
+        return;
+    }
+
+    if (password.length < 4) {
+        setError("registerError", "Password must contain at least 4 characters.");
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        setError("registerError", "Passwords do not match.");
+        return;
+    }
+
+    const users = JSON.parse(localStorage.getItem("nerShieldUsers") || "[]");
+
+    const existing = users.find(user =>
+        user.email === email || user.phone === phone
+    );
+
+    if (existing) {
+        setError("registerError", "An account with this email or phone number already exists.");
+        return;
+    }
+
+    const user = {
+        id: "NER-" + Date.now(),
+        name,
+        email,
+        phone,
+        password,
+        location,
+        accountType: "Prototype User"
+    };
+
+    users.push(user);
+
+    localStorage.setItem("nerShieldUsers", JSON.stringify(users));
+    localStorage.setItem("nerShieldCurrentUser", JSON.stringify(user));
+
+    state.currentUser = user;
+    state.isGuest = false;
+
+    openApp();
+
+    showToast("Account created successfully!");
+});
+
+document.getElementById("loginBtn").addEventListener("click", () => {
+    clearError("loginError");
+
+    const identity = document.getElementById("loginIdentity").value.trim().toLowerCase();
+    const password = document.getElementById("loginPassword").value;
+
+    if (!identity || !password) {
+        setError("loginError", "Please enter your email/phone and password.");
+        return;
+    }
+
+    const users = JSON.parse(localStorage.getItem("nerShieldUsers") || "[]");
+
+    const user = users.find(item =>
+        (item.email.toLowerCase() === identity || item.phone === identity) &&
+        item.password === password
+    );
+
+    if (!user) {
+        setError("loginError", "Invalid login details. Please check your account information.");
+        return;
+    }
+
+    state.currentUser = user;
+    state.isGuest = false;
+
+    localStorage.setItem("nerShieldCurrentUser", JSON.stringify(user));
+
+    openApp();
+    showToast("Login successful");
+});
+
+document.getElementById("guestBtn").addEventListener("click", () => {
+    state.isGuest = true;
+
+    state.currentUser = {
+        name: "Guest User",
+        email: "Not provided",
+        phone: "Not provided",
+        location: "Demo Mode",
+        accountType: "Guest"
+    };
+
+    openApp();
+    showToast("Guest mode enabled");
+});
+
+function openApp() {
+    document.getElementById("loginPage").style.display = "none";
+    document.getElementById("appContainer").classList.add("active");
+
+    updateUserInterface();
+}
+
+function updateUserInterface() {
+    if (!state.currentUser) return;
+
+    document.getElementById("headerUserName").textContent =
+        "Welcome, " + state.currentUser.name;
+
+    document.getElementById("headerUserType").textContent =
+        state.currentUser.accountType || "Prototype User";
+
+    document.getElementById("profileName").value =
+        state.currentUser.name || "";
+
+    document.getElementById("profileEmail").value =
+        state.currentUser.email || "";
+
+    document.getElementById("profilePhone").value =
+        state.currentUser.phone || "";
+
+    document.getElementById("profileLocation").value =
+        state.currentUser.location || "";
+}
+
+function logout() {
+    localStorage.removeItem("nerShieldCurrentUser");
+
+    state.currentUser = null;
+    state.isGuest = false;
+
+    document.getElementById("appContainer").classList.remove("active");
+    document.getElementById("loginPage").style.display = "flex";
+
+    document.getElementById("profileMenu").classList.remove("active");
+    closeModal("logoutModal");
+
+    document.getElementById("loginPassword").value = "";
+    showToast("Logged out successfully");
+}
+
+
+/* =========================================================
+   PROFILE
+========================================================= */
+document.getElementById("profileBtn").addEventListener("click", () => {
+    document.getElementById("profileMenu").classList.toggle("active");
+});
+
+document.addEventListener("click", event => {
+    const wrap = document.querySelector(".profile-menu-wrap");
+
+    if (!wrap.contains(event.target)) {
+        document.getElementById("profileMenu").classList.remove("active");
+    }
+});
+
+document.querySelectorAll("[data-page-target]").forEach(button => {
+    button.addEventListener("click", () => {
+        navigateTo(button.dataset.pageTarget);
+        document.getElementById("profileMenu").classList.remove("active");
+    });
+});
+
+document.getElementById("saveProfileBtn").addEventListener("click", () => {
+    if (state.isGuest) {
+        showInfo(
+            "Guest Profile",
+            "Guest mode does not save a permanent profile. Create an account to save profile information."
+        );
+        return;
+    }
+
+    const updatedUser = {
+        ...state.currentUser,
+        name: document.getElementById("profileName").value.trim(),
+        email: document.getElementById("profileEmail").value.trim(),
+        phone: document.getElementById("profilePhone").value.trim(),
+        location: document.getElementById("profileLocation").value.trim()
+    };
+
+    if (!updatedUser.name || !updatedUser.email) {
+        showToast("Name and email are required.");
+        return;
+    }
+
+    const users = JSON.parse(localStorage.getItem("nerShieldUsers") || "[]");
+
+    const index = users.findIndex(user => user.id === updatedUser.id);
+
+    if (index !== -1) {
+        users[index] = updatedUser;
+        localStorage.setItem("nerShieldUsers", JSON.stringify(users));
+    }
+
+    localStorage.setItem("nerShieldCurrentUser", JSON.stringify(updatedUser));
+
+    state.currentUser = updatedUser;
+    updateUserInterface();
+
+    showToast("Profile updated");
+});
+
+
+/* =========================================================
+   LOGOUT
+========================================================= */
+function openLogoutModal() {
+    document.getElementById("logoutModal").classList.add("active");
+}
+
+document.getElementById("settingsLogoutBtn").addEventListener("click", openLogoutModal);
+document.getElementById("profileLogoutBtn").addEventListener("click", openLogoutModal);
+
+document.getElementById("cancelLogoutBtn").addEventListener("click", () => {
+    closeModal("logoutModal");
+});
+
+document.getElementById("confirmLogoutBtn").addEventListener("click", logout);
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+document.querySelectorAll(".nav-btn").forEach(button => {
+    button.addEventListener("click", () => {
+        navigateTo(button.dataset.page);
+    });
+});
+
+function navigateTo(pageId) {
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.remove("active");
+    });
+
+    const target = document.getElementById(pageId);
+
+    if (target) {
+        target.classList.add("active");
+    }
+
+    document.querySelectorAll(".nav-btn").forEach(button => {
+        button.classList.toggle(
+            "active",
+            button.dataset.page === pageId
+        );
+    });
+
+    if (pageId === "map") {
+        initializeMapPage();
+    }
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+
+
+/* =========================================================
+   GOOGLE MAPS LOADING
+========================================================= */
+function isApiKeyMissing() {
+    return !GOOGLE_MAPS_API_KEY ||
+           GOOGLE_MAPS_API_KEY === "YOUR_GOOGLE_MAPS_API_KEY";
+}
+
+function initializeMapPage() {
+    if (isApiKeyMissing()) {
+        showMapStatus(
+            "Google Maps API Key Required",
+            "Please add your Google Maps API key to enable the interactive map.",
+            false
+        );
+
+        requestLocation(false);
+        return;
+    }
+
+    if (state.mapsLoaded && state.map) {
+        setTimeout(() => {
+            google.maps.event.trigger(state.map, "resize");
+        }, 150);
+
+        requestLocation(true);
+        return;
+    }
+
+    if (!state.mapsLoading) {
+        loadGoogleMaps();
+    }
+}
+
+function showMapStatus(title, text, loading = true) {
+    const status = document.getElementById("mapStatus");
+    status.style.display = "flex";
+
+    document.getElementById("mapStatusTitle").textContent = title;
+    document.getElementById("mapStatusText").textContent = text;
+
+    document.getElementById("mapLoader").style.display =
+        loading ? "block" : "none";
+}
+
+function hideMapStatus() {
+    document.getElementById("mapStatus").style.display = "none";
+}
+
+function loadGoogleMaps() {
+    state.mapsLoading = true;
+
+    showMapStatus(
+        "Loading interactive map",
+        "Connecting to Google Maps..."
+    );
+
+    const script = document.createElement("script");
+
+    script.src =
+        "https://maps.googleapis.com/maps/api/js?key=" +
+        encodeURIComponent(GOOGLE_MAPS_API_KEY) +
+        "&libraries=geometry";
+
+    script.async = true;
+    script.defer = true;
+
+    script.onload = () => {
+        if (!window.google || !google.maps) {
+            showMapStatus(
+                "Google Maps unavailable",
+                "Google Maps could not be initialized. Please verify your API key.",
+                false
+            );
+            return;
+        }
+
+        state.mapsLoaded = true;
+        state.mapsLoading = false;
+
+        createGoogleMap();
+    };
+
+    script.onerror = () => {
+        state.mapsLoading = false;
+
+        showMapStatus(
+            "Google Maps loading error",
+            "Unable to load Google Maps. Check your internet connection, API key, and Google Maps API configuration.",
+            false
+        );
+    };
+
+    document.head.appendChild(script);
+}
+
+function createGoogleMap() {
+    const fallbackCenter = {
+        lat: 25.5788,
+        lng: 91.8933
+    };
+
+    state.map = new google.maps.Map(
+        document.getElementById("googleMap"),
+        {
+            center: fallbackCenter,
+            zoom: 8,
+            mapTypeControl: true,
+            streetViewControl: false,
+            fullscreenControl: true,
+            zoomControl: true
+        }
+    );
+
+    state.infoWindow = new google.maps.InfoWindow();
+
+    addRiskMarkers();
+    addRoadRiskSegments();
+
+    hideMapStatus();
+
+    requestLocation(true);
+}
+
+
+/* =========================================================
+   RISK MARKERS
+========================================================= */
+function addRiskMarkers() {
+    const zones = [
+        {
+            name: "Shillong",
+            lat: 25.5788,
+            lng: 91.8933,
+            risk: "MODERATE",
+            score: 72,
+            color: "#FFC107",
+            rainfall: "32 mm",
+            moisture: "68%",
+            confidence: "87%"
+        },
+        {
+            name: "Guwahati",
+            lat: 26.1445,
+            lng: 91.7362,
+            risk: "LOW",
+            score: 28,
+            color: "#4CAF50",
+            rainfall: "18 mm",
+            moisture: "42%",
+            confidence: "82%"
+        },
+        {
+            name: "Kamrup District",
+            lat: 26.0436,
+            lng: 91.5887,
+            risk: "CRITICAL",
+            score: 91,
+            color: "#F44336",
+            rainfall: "64 mm",
+            moisture: "88%",
+            confidence: "94%"
+        },
+        {
+            name: "Cherrapunji",
+            lat: 25.2702,
+            lng: 91.7323,
+            risk: "HIGH",
+            score: 84,
+            color: "#FF9800",
+            rainfall: "51 mm",
+            moisture: "79%",
+            confidence: "91%"
+        },
+        {
+            name: "Kohima",
+            lat: 25.6751,
+            lng: 94.1086,
+            risk: "MODERATE",
+            score: 63,
+            color: "#FFC107",
+            rainfall: "29 mm",
+            moisture: "64%",
+            confidence: "86%"
+        },
+        {
+            name: "Dimapur",
+            lat: 25.9091,
+            lng: 93.7266,
+            risk: "LOW",
+            score: 31,
+            color: "#4CAF50",
+            rainfall: "14 mm",
+            moisture: "46%",
+            confidence: "80%"
+        },
+        {
+            name: "Imphal",
+            lat: 24.8170,
+            lng: 93.9368,
+            risk: "HIGH",
+            score: 79,
+            color: "#FF9800",
+            rainfall: "44 mm",
+            moisture: "75%",
+            confidence: "89%"
+        },
+        {
+            name: "Aizawl",
+            lat: 23.7271,
+            lng: 92.7176,
+            risk: "MODERATE",
+            score: 67,
+            color: "#FFC107",
+            rainfall: "36 mm",
+            moisture: "70%",
+            confidence: "88%"
+        }
+    ];
+
+    zones.forEach(zone => {
+        const marker = new google.maps.Marker({
+            position: {
+                lat: zone.lat,
+                lng: zone.lng
+            },
+            map: state.map,
+            title: zone.name,
+            icon: {
+                path: google.maps.SymbolPath.CIRCLE,
+                fillColor: zone.color,
+                fillOpacity: 1,
+                strokeColor: "#FFFFFF",
+                strokeWeight: 2,
+                scale: 10
+            }
+        });
+
+        marker.addListener("click", () => {
+            state.infoWindow.setContent(`
+                <div style="font-family:Inter,sans-serif;max-width:240px">
+                    <h3 style="margin:0 0 8px;color:#1A73E8">
+                        NER Shield Risk Analysis
+                    </h3>
+                    <p><strong>Location:</strong> ${zone.name}</p>
+                    <p><strong>Risk Level:</strong> ${zone.risk}</p>
+                    <p><strong>Risk Score:</strong> ${zone.score}%</p>
+                    <p><strong>Rainfall:</strong> ${zone.rainfall}</p>
+                    <p><strong>Soil Moisture:</strong> ${zone.moisture}</p>
+                    <p><strong>AI Confidence:</strong> ${zone.confidence}</p>
+                    <p><strong>Road:</strong> NH-37</p>
+                    <p><strong>Risk Segment:</strong> km 12–15</p>
+                    <small>Prototype / Demo Data</small>
+                </div>                    </div>
+            `);
+            state.infoWindow.open(state.map, marker);
+        });
+    });
+}
+
+/* =========================================================
+   ROAD RISK SEGMENTS
+========================================================= */
+function addRoadRiskSegments() {
+    if (!window.google || !state.map) return;
+    const roads = [
+        {name:'NH-37 High Risk Segment', path:[{lat:25.56,lng:91.88},{lat:25.53,lng:91.91},{lat:25.50,lng:91.94}], color:'#F44336'},
+        {name:'Shillong Approach - Moderate Risk', path:[{lat:25.62,lng:91.82},{lat:25.59,lng:91.86},{lat:25.57,lng:91.90}], color:'#FFC107'}
+    ];
+    roads.forEach(road => {
+        const line = new google.maps.Polyline({path:road.path, geodesic:true, strokeColor:road.color, strokeOpacity:.9, strokeWeight:7, map:state.map});
+        line.addListener('click', () => showInfo(road.name, 'Prototype risk road segment. Follow official traffic and disaster-management instructions before travelling.'));
+    });
+}
+
+/* =========================================================
+   LOCATION SERVICES
+========================================================= */
+function updateLocationUI(position) {
+    const c = position.coords;
+    state.latestLocation = {lat:c.latitude, lng:c.longitude, accuracy:c.accuracy};
+    document.getElementById('latitudeText').textContent = `Latitude: ${c.latitude.toFixed(6)}`;
+    document.getElementById('longitudeText').textContent = `Longitude: ${c.longitude.toFixed(6)}`;
+    document.getElementById('accuracyText').textContent = `Accuracy: ±${Math.round(c.accuracy || 0)} m`;
+    document.getElementById('emergencyLat').textContent = `Latitude: ${c.latitude.toFixed(6)}`;
+    document.getElementById('emergencyLng').textContent = `Longitude: ${c.longitude.toFixed(6)}`;
+    document.getElementById('emergencyAccuracy').textContent = `Accuracy: ±${Math.round(c.accuracy || 0)} m`;
+    if (state.map && window.google) {
+        const pos = {lat:c.latitude,lng:c.longitude};
+        if (!state.userMarker) {
+            state.userMarker = new google.maps.Marker({position:pos,map:state.map,title:'Your Location',icon:{path:google.maps.SymbolPath.CIRCLE,scale:8,fillColor:'#1A73E8',fillOpacity:1,strokeColor:'#fff',strokeWeight:3}});
+        } else state.userMarker.setPosition(pos);
+    }
+}
+
+function locationError(error) {
+    const messages = {1:'Location permission was denied.',2:'Your location is unavailable.',3:'Location request timed out.'};
+    showToast(messages[error.code] || 'Unable to detect your location.');
+}
+
+function requestLocation(centerMap = false) {
+    if (!navigator.geolocation) { showToast('Geolocation is not supported by this browser.'); return; }
+    navigator.geolocation.getCurrentPosition(position => {
+        updateLocationUI(position);
+        if (centerMap && state.map && window.google) state.map.setCenter({lat:position.coords.latitude,lng:position.coords.longitude});
+    }, locationError, {enableHighAccuracy:true, timeout:12000, maximumAge:30000});
+}
+
+/* =========================================================
+   MAP: KEY-FREE FALLBACK WITH LEAFLET / OPENSTREETMAP
+========================================================= */
+let leafletLoaded = false;
+function loadLeaflet(callback) {
+    if (window.L) { leafletLoaded=true; callback(); return; }
+    if (leafletLoaded) return;
+    leafletLoaded = true;
+    const css=document.createElement('link'); css.rel='stylesheet'; css.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'; document.head.appendChild(css);
+    const script=document.createElement('script'); script.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'; script.onload=callback; script.onerror=()=>showMapStatus('Map unavailable','Could not load the map library. Please check your internet connection.',false); document.head.appendChild(script);
+}
+function createLeafletMap() {
+    if (!window.L) return;
+    const center=[25.5788,91.8933];
+    state.map=L.map('googleMap').setView(center,8);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© OpenStreetMap contributors'}).addTo(state.map);
+    const zones=[
+      ['Shillong',25.5788,91.8933,'MODERATE',72,'#FFC107','32 mm','68%','87%'],
+      ['Guwahati',26.1445,91.7362,'LOW',28,'#4CAF50','18 mm','42%','82%'],
+      ['Kamrup District',26.0436,91.5887,'CRITICAL',91,'#F44336','64 mm','88%','94%'],
+      ['Cherrapunji',25.2702,91.7323,'HIGH',84,'#FF9800','51 mm','79%','91%'],
+      ['Kohima',25.6751,94.1086,'MODERATE',63,'#FFC107','29 mm','64%','86%'],
+      ['Dimapur',25.9091,93.7266,'LOW',31,'#4CAF50','14 mm','46%','80%'],
+      ['Imphal',24.8170,93.9368,'HIGH',79,'#FF9800','44 mm','75%','89%'],
+      ['Aizawl',23.7271,92.7176,'MODERATE',67,'#FFC107','36 mm','70%','88%']
+    ];
+    zones.forEach(z=>{
+      const marker=L.circleMarker([z[1],z[2]],{radius:10,color:'#fff',weight:2,fillColor:z[5],fillOpacity:1}).addTo(state.map);
+      marker.bindPopup(`<strong>NER Shield Risk Analysis</strong><br>Location: ${z[0]}<br>Risk Level: ${z[3]}<br>Risk Score: ${z[4]}%<br>Rainfall: ${z[6]}<br>Soil Moisture: ${z[7]}<br>AI Confidence: ${z[8]}<br><small>Prototype / Demo Data</small>`);
+    });
+    L.polyline([[25.56,91.88],[25.53,91.91],[25.50,91.94]],{color:'#F44336',weight:7}).addTo(state.map).bindPopup('NH-37 High Risk Segment: km 12–15');
+    L.polyline([[25.62,91.82],[25.59,91.86],[25.57,91.90]],{color:'#FFC107',weight:7}).addTo(state.map).bindPopup('Shillong approach: Moderate Risk');
+    hideMapStatus();
+    requestLocation(true);
+}
+function initializeMapPage() {
+    showMapStatus('Loading interactive map','Preparing map and location services...');
+    loadLeaflet(createLeafletMap);
+}
+
+/* =========================================================
+   VIDEO / AWARENESS
+========================================================= */
+function renderVideos() {
+    const grid=document.getElementById('videoGrid');
+    if (!grid) return;
+    grid.innerHTML=VIDEOS.map((v,i)=>`<article class="video-card" data-video-index="${i}"><div class="video-thumbnail"><div class="play-icon"><i class="fa-solid fa-play"></i></div><span class="video-duration">${v.duration}</span></div><div class="video-info"><h3>${v.title}</h3><p>${v.description}</p></div></article>`).join('');
+    grid.querySelectorAll('.video-card').forEach(card=>card.addEventListener('click',()=>openVideo(Number(card.dataset.videoIndex))));
+}
+function youtubeEmbedUrl(url) {
+    try {
+        const u = new URL(url);
+        let id = "";
+
+        if (u.hostname === "youtu.be") {
+            id = u.pathname.replace("/", "");
+        } else if (u.hostname.includes("youtube.com")) {
+            if (u.pathname.startsWith("/shorts/")) {
+                id = u.pathname.split("/shorts/")[1].split("/")[0];
+            } else {
+                id = u.searchParams.get("v") || "";
+            }
+        }
+
+        if (!id) return "about:blank";
+        return "https://www.youtube.com/embed/" + encodeURIComponent(id) +
+               "?autoplay=1&rel=0&modestbranding=1";
+    } catch (e) {
+        return "about:blank";
+    }
+}
+
+function openVideo(index) {
+    const v=VIDEOS[index];
+    document.getElementById('videoModalTitle').textContent=v.title;
+    document.getElementById('videoModalMessage').textContent=v.description;
+    const frame=document.getElementById('awarenessVideo');
+    frame.src=youtubeEmbedUrl(v.url);
+    document.getElementById('videoModal').classList.add('active');
+}
+document.getElementById('closeVideoBtn').addEventListener('click',()=>{
+    document.getElementById('awarenessVideo').src='about:blank';
+    closeModal('videoModal');
+});
+
+/* =========================================================
+   REPORTS
+========================================================= */
+let reportLocation=null;
+document.getElementById('reportPhoto').addEventListener('change',e=>{
+    const file=e.target.files[0]; if(!file)return;
+    if(!file.type.startsWith('image/')){showToast('Please choose an image file.');return;}
+    const reader=new FileReader(); reader.onload=()=>{const img=document.getElementById('photoPreview');img.src=reader.result;img.style.display='block';}; reader.readAsDataURL(file);
+});
+document.getElementById('detectReportLocationBtn').addEventListener('click',()=>{
+    if(!navigator.geolocation){showToast('Geolocation is not supported.');return;}
+    const el=document.getElementById('reportLocationResult'); el.textContent='Detecting GPS location...';
+    navigator.geolocation.getCurrentPosition(p=>{reportLocation={lat:p.coords.latitude,lng:p.coords.longitude,accuracy:p.coords.accuracy};el.innerHTML=`<strong>GPS detected</strong><br>Latitude: ${reportLocation.lat.toFixed(6)}<br>Longitude: ${reportLocation.lng.toFixed(6)}<br>Accuracy: ±${Math.round(reportLocation.accuracy)} m`;},()=>{el.textContent='Unable to detect GPS location. Please allow location access.';},{enableHighAccuracy:true,timeout:12000});
+});
+document.getElementById('submitReportBtn').addEventListener('click',()=>{
+    const type=document.getElementById('observationType').value, desc=document.getElementById('reportDescription').value.trim(), photo=document.getElementById('photoPreview').src;
+    if(!type){showToast('Please select an observation type.');return;}
+    if(!desc){showToast('Please enter a description.');return;}
+    const reports=JSON.parse(localStorage.getItem('nerShieldReports')||'[]');
+    reports.unshift({id:'RPT-'+Date.now(),user:state.currentUser?.name||'Guest User',type,description:desc,location:reportLocation,timestamp:new Date().toISOString(),photo:photo||''});
+    localStorage.setItem('nerShieldReports',JSON.stringify(reports));
+    document.getElementById('reportDescription').value='';document.getElementById('observationType').value='';document.getElementById('reportPhoto').value='';document.getElementById('photoPreview').style.display='none';reportLocation=null;document.getElementById('reportLocationResult').textContent='GPS location not detected yet.';
+    showToast('Observation report submitted successfully.');
+});
+
+/* =========================================================
+   ALERTS
+========================================================= */
+document.querySelectorAll('.alert-card').forEach(card=>card.addEventListener('click',()=>showInfo(card.dataset.alert,'This is a prototype alert. Verify current conditions with official local disaster-management authorities before taking action.')));
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+document.querySelectorAll('.toggle[data-setting]').forEach(toggle=>{
+    const key='nerShieldSetting_'+toggle.dataset.setting;
+    const saved=localStorage.getItem(key); if(saved!==null)toggle.classList.toggle('active',saved==='true');
+    toggle.addEventListener('click',()=>{toggle.classList.toggle('active');localStorage.setItem(key,toggle.classList.contains('active'));showToast(toggle.dataset.setting==='notifications'?(toggle.classList.contains('active')?'Notifications enabled':'Notifications disabled'):'Offline mode '+(toggle.classList.contains('active')?'enabled':'disabled'));});
+});
+document.getElementById('languageSelect').addEventListener('change',e=>{showToast(`Language preference set to ${e.target.value}. Full translation requires translated content.`);localStorage.setItem('nerShieldLanguage',e.target.value);});
+
+/* =========================================================
+   SOS / EMERGENCY AUDIO
+========================================================= */
+function startSosSound() {
+    try {
+        if (state.sirenOscillators && state.sirenOscillators.length) {
+            stopSosSound();
+        }
+
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) {
+            showToast('SOS sound is not supported by this browser.');
+            return;
+        }
+
+        const ctx = state.audioContext || new AudioContextClass();
+        state.audioContext = ctx;
+        if (ctx.state === 'suspended') ctx.resume();
+
+        const master = ctx.createGain();
+        master.gain.setValueAtTime(0.0001, ctx.currentTime);
+        master.gain.exponentialRampToValueAtTime(0.22, ctx.currentTime + 0.08);
+        master.connect(ctx.destination);
+
+        const osc1 = ctx.createOscillator();
+        const osc2 = ctx.createOscillator();
+        osc1.type = 'sawtooth';
+        osc2.type = 'square';
+
+        osc1.frequency.setValueAtTime(620, ctx.currentTime);
+        osc2.frequency.setValueAtTime(760, ctx.currentTime);
+        osc1.connect(master);
+        osc2.connect(master);
+        osc1.start();
+        osc2.start();
+
+        let high = false;
+        const sirenTimer = setInterval(() => {
+            high = !high;
+            const now = ctx.currentTime;
+            const f1 = high ? 980 : 620;
+            const f2 = high ? 1160 : 760;
+            osc1.frequency.cancelScheduledValues(now);
+            osc2.frequency.cancelScheduledValues(now);
+            osc1.frequency.linearRampToValueAtTime(f1, now + 0.28);
+            osc2.frequency.linearRampToValueAtTime(f2, now + 0.28);
+        }, 300);
+
+        state.sirenOscillators = [osc1, osc2];
+        state.sirenGain = master;
+        state.sirenTimer = sirenTimer;
+    } catch (e) {
+        console.warn('Unable to start SOS sound:', e);
+    }
+}
+
+function stopSosSound() {
+    try {
+        clearInterval(state.sirenTimer);
+        state.sirenTimer = null;
+
+        if (state.audioContext && state.sirenGain) {
+            const now = state.audioContext.currentTime;
+            state.sirenGain.gain.cancelScheduledValues(now);
+            state.sirenGain.gain.setValueAtTime(Math.max(state.sirenGain.gain.value, 0.0001), now);
+            state.sirenGain.gain.exponentialRampToValueAtTime(0.0001, now + 0.12);
+        }
+
+        setTimeout(() => {
+            (state.sirenOscillators || []).forEach(o => {
+                try { o.stop(); } catch (e) {}
+            });
+            state.sirenOscillators = [];
+            state.sirenGain = null;
+        }, 150);
+    } catch (e) {
+        console.warn('Unable to stop SOS sound:', e);
+    }
+}
+
+/* =========================================================
+   SOS / EMERGENCY SIMULATION
+========================================================= */
+document.getElementById('sosBtn').addEventListener('click',()=>{
+    startSosSound();
+    requestLocation(false);
+    document.getElementById('sosModal').classList.add('active');
+});
+document.getElementById('cancelSosBtn').addEventListener('click',()=>{
+    stopSosSound();
+    closeModal('sosModal');
+});
+document.getElementById('sendSosBtn').addEventListener('click',()=>{
+    closeModal('sosModal'); document.getElementById('emergencyState').classList.add('active');
+    let seconds=30;document.getElementById('emergencyCountdown').textContent=seconds;
+    clearInterval(state.emergencyCountdownTimer);
+    state.emergencyCountdownTimer=setInterval(()=>{seconds--;document.getElementById('emergencyCountdown').textContent=Math.max(seconds,0);if(seconds<=0){clearInterval(state.emergencyCountdownTimer);stopSosSound();}},1000);
+    requestLocation(false); showToast('Emergency prototype activated. No real alert was sent.');
+});
+document.getElementById('stopAlarmBtn').addEventListener('click',()=>{
+    stopSosSound();
+    clearInterval(state.emergencyCountdownTimer);
+    document.getElementById('emergencyState').classList.remove('active');
+    showToast('Emergency prototype stopped.');
+});
+
+/* =========================================================
+   MODALS / KEYBOARD
+========================================================= */
+document.getElementById('closeInfoBtn').addEventListener('click',()=>closeModal('infoModal'));
+['sosModal','videoModal','logoutModal','infoModal'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{
+    if(e.target.id===id){
+        if(id==='sosModal') stopSosSound();
+        if(id==='videoModal') document.getElementById('awarenessVideo').src='about:blank';
+        closeModal(id);
+    }
+}));
+document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){
+        stopSosSound();
+        document.getElementById('awarenessVideo').src='about:blank';
+        ['sosModal','videoModal','logoutModal','infoModal'].forEach(id=>closeModal(id));
+    }
+});
+
+/* =========================================================
+   SESSION RESTORE / STARTUP
+========================================================= */
+function restoreSession() {
+    try {
+        const saved=JSON.parse(localStorage.getItem('nerShieldCurrentUser')||'null');
+        if(saved){state.currentUser=saved;state.isGuest=false;openApp();}
+    } catch(e){localStorage.removeItem('nerShieldCurrentUser');}
+    const lang=localStorage.getItem('nerShieldLanguage');if(lang)document.getElementById('languageSelect').value=lang;
+}
+renderVideos();
+restoreSession();
+
+</script>
+<script>
+(function () {
+  const btn = document.getElementById('runAIPredictionBtn');
+  if (!btn) return;
+  btn.addEventListener('click', async () => {
+    const payload = {
+      rainfall_mm: Number(document.getElementById('mlRainfall').value),
+      soil_moisture: Number(document.getElementById('mlSoil').value),
+      slope_degree: Number(document.getElementById('mlSlope').value),
+      road_condition: Number(document.getElementById('mlRoad').value),
+      historical_disruptions: Number(document.getElementById('mlHistory').value),
+      terrain: document.getElementById('mlTerrain').value
+    };
+    document.getElementById('mlPredictionMessage').textContent = 'Running AI prediction...';
+    try {
+      const res = await fetch('/api/predict', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(payload)
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Prediction failed');
+      document.getElementById('mlRiskLevel').textContent = data.risk_level;
+      document.getElementById('mlRiskProbability').textContent = data.risk_percent + '%';
+      document.getElementById('mlConfidence').textContent = data.confidence + '%';
+      document.getElementById('mlPredictionMessage').textContent =
+        'Prediction complete. ' + data.summary;
+    } catch (err) {
+      document.getElementById('mlPredictionMessage').textContent = 'Error: ' + err.message;
+    }
+  });
+})();
+</script>
+
+</body></html>
